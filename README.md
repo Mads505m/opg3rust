@@ -1,4 +1,4 @@
-# opg3rust
+# opg3rust lavet af Emil, Mikkel, Magnus, Peter Og Mads
  Opgaveformål:
 
 Formålet med denne opgave er at forstå datastrukturer i Rust ved at implementere en stack fra bunden. Stacken skal følge princippet "Last In, First Out" (LIFO), og I skal håndtere stackens vækst og hukommelsesallokering.
