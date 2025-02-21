@@ -1,0 +1,28 @@
+1.Hvordan allokeres hukommelsen i din stack?
+I vores Stack-implementation bruger vi en Vec<T> til at gemme elementerne.
+
+Vec<T> allokerer hukommelse på heapen, men referencen til Vec<T> ligger på stacken.
+Når vi tilføjer elementer (push), udvides vektoren dynamisk, hvis der ikke er plads nok.
+Når vi fjerner elementer (pop), frigives hukommelsen for det fjernede element.
+
+2.Hvorfor bruger vi Vec<T> til dynamisk allokering?
+Vi bruger Vec<T> fordi:
+
+Dynamisk størrelse: En Vec<T> kan vokse og krympe efter behov, modsat arrays ([T; N]), som har en fast størrelse.
+Effektiv hukommelseshåndtering: Vec<T> udvider sig eksponentielt (normalt fordobler den sin kapacitet, når den løber tør for plads). Dette gør hukommelsesallokering mere effektiv end at allokere en ny blok for hvert nyt element.
+Rusts ejerskabsmodel: Vec<T> tager sig af hukommelseshåndtering automatisk via Rusts Drop-trait.
+
+3.Hvordan håndterer Rust hukommelsen for denne struktur sammenlignet med en heap-allokeret datastruktur?
+Rusts Vec<T> er heap-allokeret, men selve Stack<T>-instansen ligger på stacken.
+Rust bruger RAII (Resource Acquisition Is Initialization), hvilket betyder, at når vores stack går ud af scope, frigives hukommelsen automatisk.
+Ingen garbage collector: Rusts ejerskabsmodel sørger for automatisk og sikker hukommelsesallokering – vi undgår hukommelseslækager.
+Sammenligning med en rent heap-allokeret struktur:
+
+I C++ eller andre sprog uden sikker hukommelsesstyring, skal vi manuelt allokere og frigive hukommelse.
+I Rust håndteres dette automatisk, hvilket forhindrer memory leaks og use-after-free fejl.
+
+4.Hvad sker der med elementerne, når stacken popper elementer af?
+Når vi kalder pop(), fjerner vi det sidste element i Vec<T>.
+Rust frigiver hukommelsen for det fjernede element, fordi Vec<T> ejer elementerne.
+Hvis elementet implementerer Drop (f.eks. hvis det indeholder en String eller en anden heap-allokeret type), kaldes dets destructor, og dets ressourcer bliver frigivet.
+De resterende elementer bliver ikke flyttet, da Vec<T> blot reducerer sin længde (len) uden at kopiere data unødigt.
